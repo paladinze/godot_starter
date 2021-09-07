@@ -5,17 +5,19 @@ var score
 
 func _ready():
 	randomize()
-	new_game()
-
 
 func _on_Player_hit():
-	$ScoreTimer.Stop()
-	$MobTimer.Stop()
+	$ScoreTimer.stop()
+	$MobTimer.stop()
+	$HUD.show_game_over()
+
 	
 func new_game():
 	score = 0
 	$Player.reset($StartPosition.position)
 	$StartTimer.start()
+	$HUD.update_score(score)
+	$HUD.show_msg("Get Ready")
 
 
 func _on_StartTimer_timeout():
@@ -25,7 +27,7 @@ func _on_StartTimer_timeout():
 
 func _on_ScoreTimer_timeout():
 	score += 1
-
+	$HUD.update_score(score)
 
 func _on_MobTimer_timeout():
 	$MobPath/MobSpawnLocation.offset = randi()
